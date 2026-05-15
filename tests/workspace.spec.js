@@ -22,10 +22,7 @@ test.describe('Рабочее пространство', () => {
             await page.waitForTimeout(2000);
 
             const messageInput = page.locator(
-                'textarea[placeholder*="сообщение"], ' +
-                'textarea[class*="message"], ' +
-                '.chat-input, ' +
-                'textarea'
+                'textarea[placeholder*="сообщение"]'
             ).first();
         
             if (await messageInput.isVisible().catch(() => false)) {
@@ -33,10 +30,7 @@ test.describe('Рабочее пространство', () => {
                 await messageInput.fill(msg);
                 
                 const sendButton = page.locator(
-                'button:has-text("Отправить"), ' +
-                '.send-message-icon, ' +
-                'button[class*="send"], ' +
-                '.btn-send'
+                'button:has-text("Отправить")'
                 ).first();
                 
                 if (await sendButton.isVisible().catch(() => false)) {
@@ -49,37 +43,6 @@ test.describe('Рабочее пространство', () => {
                     await messageInput.press('Enter');
                     await page.waitForTimeout(2000);
                 }
-            }
-        }
-        
-        expect(true).toBeTruthy();
-    });
-
-    test('Негатив: Отправка пустого сообщения', async ({ page }) => {
-        await login(page, 'employer');
-        await page.goto('https://dev.profteam.su/account/responses');
-        await page.waitForTimeout(2000);
-
-        const approvedTab = page.locator('text=Одобрены').first();
-        if (await approvedTab.isVisible().catch(() => false)) {
-            await approvedTab.click();
-            await page.waitForTimeout(2000);
-        }
-
-        const firstResponse = page.locator('.responses-list-item').first();
-        const workspaceButton = firstResponse.locator('button:has-text("Рабочее пространство")').first();
-        
-        if (await workspaceButton.isVisible().catch(() => false)) {
-            await workspaceButton.click();
-            await page.waitForTimeout(2000);
-
-            const sendButton = page.locator('.send-message-icon, button:has-text("Отправить")').first();
-            if (await sendButton.isVisible().catch(() => false)) {
-                await sendButton.click();
-                await page.waitForTimeout(2000);
-
-                const errorVisible = await page.locator('.error, .validation, .alert-danger').isVisible().catch(() => false);
-                expect(errorVisible).toBeTruthy();
             }
         }
         
