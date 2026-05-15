@@ -1,6 +1,7 @@
 node_modules
 test-results
 e2e
+.github
 
 # Playwright
 /playwright-report/
