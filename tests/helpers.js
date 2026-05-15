@@ -1,5 +1,5 @@
 const users = {
-    student:    { username: 'testerStudent', password: 'Password1' },
+    student:    { username: 'Sozpawka', password: 'Password1' },
     employer:   { username: 'testerEmployer', password: 'Password1' },
     admin:      { username: 'testerAdmin', password: 'Password1' },
     institution:{ username: 'testerInstitution', password: 'Password1' }

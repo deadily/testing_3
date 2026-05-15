@@ -21,6 +21,17 @@ test.describe('Вакансии: создание, поиск, фильтр', ()
         await page.click('button:has-text("Обновить вакансию")');
         await page.waitForTimeout(2000);
 
+        const closeButton = page.locator('img[alt="close"], .modal-close');
+        if (await closeButton.isVisible().catch(() => false)) {
+            await closeButton.click();
+            await page.waitForTimeout(1000);
+        }
+        
+        const vacancyCard = page.locator(`h2:has-text("${uniqueTitle}")`).locator('..').locator('..');
+        const publishButton = vacancyCard.locator('button:has-text("Опубликовать")');
+        await publishButton.waitFor({ state: 'visible', timeout: 5000 });
+        await publishButton.click();
+
         await expect(page.getByText(uniqueTitle)).toBeVisible({ timeout: 10000 });
     });
 
@@ -58,7 +69,7 @@ test.describe('Вакансии: создание, поиск, фильтр', ()
         }
         await page.waitForTimeout(2000);
 
-        await expect(page.locator('[class*="vacancy"]').first()).toContainText(searchTerm);
+        await expect(page.locator('[class*="vacancy-header__name"]').first()).toContainText(searchTerm);
     });
 
     test('Негатив: Поиск без результатов', async ({ page }) => {
@@ -70,7 +81,7 @@ test.describe('Вакансии: создание, поиск, фильтр', ()
         await page.keyboard.press('Enter');
         await page.waitForTimeout(2000);
 
-        await expect(page.locator('[class*="vacancy"]')).toHaveCount(0);
+        await expect(page.locator('[class*="vacancy-header__name"]')).toHaveCount(0);
     });
 
 
@@ -84,7 +95,7 @@ test.describe('Вакансии: создание, поиск, фильтр', ()
         await page.waitForTimeout(2000);
 
         await expect(salaryRadio).toBeChecked();
-        await expect(page.locator('[class*="vacancy"]').first()).toBeVisible();
+        await expect(page.locator('[class*="vacancy-header__name"]').first()).toBeVisible();
     });
 
 });
